@@ -1,7 +1,11 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.7",
+    "@tailwindcss/cli": "^4.1.12",
     "jquery": "^3.7.1",
-    "owl.carousel": "^2.3.4"
+    "owl.carousel": "^2.3.4",
+    "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "daisyui": "^5.0.50"
   }
 }

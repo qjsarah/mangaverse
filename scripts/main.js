@@ -1,23 +1,25 @@
-const savedTheme = localStorage.getItem('theme') || 'dark';
+const savedTheme = localStorage.getItem('theme') || 'luxury';
+
 document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = document.getElementById('themeIcon');
 
-  // Check localStorage for saved theme on load
-  document.documentElement.setAttribute('data-bs-theme', savedTheme);
-  themeIcon.innerHTML = savedTheme === 'light'
-    ? '<i class="fa-solid fa-moon"></i>'
-    : '<i class="fa-solid fa-sun"></i>';
+  // Apply saved theme on load
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeIcon.innerHTML = savedTheme === 'luxury'
+    ? '<i class="fa-solid fa-sun"></i>'
+    : '<i class="fa-solid fa-moon"></i>';
 
   // Toggle on click
   themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-bs-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'luxury' ? 'valentine' : 'luxury';
 
-    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
-    themeIcon.innerHTML = newTheme === 'dark'
+
+    themeIcon.innerHTML = newTheme === 'luxury'
       ? '<i class="fa-solid fa-sun"></i>'
       : '<i class="fa-solid fa-moon"></i>';
-  });  
+  });
 });

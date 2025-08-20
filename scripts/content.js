@@ -66,14 +66,19 @@ fetchPopularManga().then(mangaList => {
     popularDiv.innerHTML = `
         <div class="owl-carousel owl-theme">
             ${mangaList.slice(0, 20).map(manga => `
-                <div class="item d-flex flex-column">
-                    <a href="${manga.url}" target="_blank" class="manga-cover nav-link">
-                        <img src="${manga.images.jpg.image_url}" class="rounded-end-4 " alt="${manga.title}" style="width: 150px;">
-                        <span class="fw-bold text-start manga-title position-absolute start-0 bottom-0">${manga.title}</span>
-                    </a>
+                <div class="item flex flex-col relative">
+                <a href="${manga.url}" target="_blank" class="manga-cover block relative">
+                    <img src="${manga.images.jpg.image_url}" 
+                        alt="${manga.title}" 
+                        class="w-[150px] rounded-r-xl object-cover" />
+                    <span class="font-bold text-left manga-title absolute left-0 bottom-0 text-white text-sm px-2 py-1 w-full">
+                    ${manga.title}
+                    </span>
+                </a>
                 </div>
             `).join('')}
-        </div>
+            </div>
+
     `;
     owlCarousel();
 });
@@ -85,8 +90,8 @@ fetchLatestManga().then(mangaList => {
         <div class="owl-carousel owl-theme">
             ${mangaList.slice(0, 10).map(manga => `
                 <div class="item">
-                    <a href="${manga.url}" target="_blank" class="manga-cover nav-link"><img src="${manga.images.jpg.image_url}" class="rounded-end-4" alt="${manga.title}" style="width: 150px;">
-                    <span class="fw-bold text-start manga-title position-absolute start-0 bottom-0 text-light">${manga.title}</span></a>
+                    <a href="${manga.url}" target="_blank" class="manga-cover block relative"><img src="${manga.images.jpg.image_url}" class="w-[150px] rounded-r-xl object-cover" alt="${manga.title}">
+                    <span class="font-bold text-left manga-title absolute left-0 bottom-0 text-white text-sm px-2 py-1 w-full">${manga.title}</span></a>
                 </div>
             `).join('')}
         </div>
@@ -107,32 +112,32 @@ const genres = [
 ];  
 
 const genreListDiv = document.getElementById('genre-list');
-const genreMangaDiv = document.getElementById('genre-manga');
+const modalToggle = document.getElementById('genre-manga');
+const modalContent = document.getElementById('genreContent');
+
 
 genreListDiv.innerHTML = genres.map(genre => `
-    <button class="btn mb-2 form-control btn-outline-secondary py-3 rounded-end-5" onclick="loadGenreManga(${genre.id})" >${genre.name}</button>`).join('');
+    <button class="btn btn-primary mb-1 form-control py-5 rounded-full" onclick="loadGenreManga(${genre.id})" >${genre.name}</button>`).join('');
 
 async function loadGenreManga(genreId) {
     const mangaList = await fetchMangaByGenre(genreId);
-    genreMangaDiv.innerHTML = `
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Manga in ${genres.find(g => g.id === genreId).name} Genre</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex flex-wrap">
+    modalContent.innerHTML = `
+        <h3 class="text-xl font-bold mb-2">Manga in ${genres.find(g => g.id === genreId).name} Genre</h3>
+            <div class="flex flex-wrap">
                 ${mangaList.map(manga => `
-                    <div class="col-6 col-sm-3 mb-4 float-center">
-                        <div class="item p-2 rounded-bottom-4 lift-on-hover text-center">
-                            <a href="${manga.url}" target="_blank" class="manga-cover"><img src="${manga.images.jpg.image_url}" class="rounded-end-4 img-fluid" alt="${manga.title}" style="width: 150px;"></a>
-                            <p class="fw-bold text-start">${manga.title}</p>
+                    <div class="w-1/2 sm:w-1/4 mb-4 flex justify-center">
+                        <div class="p-2 rounded-b-xl shadow-md text-center">
+                            <a href="${manga.url}" target="_blank" class="manga-cover">
+                            <img src="${manga.images.jpg.image_url}" 
+                                alt="${manga.title}" 
+                                class="w-[150px] rounded-e-xl object-cover mx-auto" />
+                            </a>
+                            <p class="font-bold text-left mt-2">${manga.title}</p>
                         </div>
                     </div>
                 `).join('')}
         </div>
     </div>
     `;
-    const modal = new bootstrap.Modal(genreMangaDiv);
-    modal.show();
+    modalToggle.checked = true;
 }
